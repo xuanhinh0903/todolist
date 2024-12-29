@@ -1,11 +1,19 @@
-import {Router} from "express";
+const expressApp = require("express");
+const authRouter = expressApp.Router();
+const validate = require("../middlewares/validate");
+const authValidation = require("../validations/auth.validation");
+const authController = require("../controllers/auth.controller");
+authRouter.post(
+  "/login",
+  (req: any, res: any) => {
+    res.send("Login endpoint");
+  }
+);
 
-const router = Router();
-
-router.post(
+authRouter.post(
   "/register",
   validate(authValidation.register),
   authController.register
 );
 
-export {router};
+module.exports = authRouter;
