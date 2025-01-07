@@ -6,7 +6,7 @@ const {
   userService,
   tokenService,
 } = require("../services");
-
+const catchAsync = require("../utils/catchAsync");
 const httpStatus = require("http-status");
 /**
  * Handles registeration of user
@@ -20,7 +20,7 @@ const register = catchAsync(
     res: Response
   ) => {
     const user =
-      await userService.createUser(
+      await userService.createNewUser(
         req.body
       );
 

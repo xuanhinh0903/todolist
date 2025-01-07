@@ -24,23 +24,30 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
-    updatedAt: {
-      type: Date,
-      default: Date.now,
-    },
   },
-  {
-    timestamps: true,
-  }
+  {timestamps: true}
 );
 
-const User = mongoose.model(
-  "User",
-  userSchema
-);
+/**
+ * Check if email is taken
+ * @param {string} email - The user's email
+ * @param {ObjectId} [excludeUserId] - The id of the user to be excluded
+ * @returns {Promise<boolean>}
+ */
+userSchema.statics.isEmailTaken =
+  async function (
+    email: any,
+    excludeUserId: any
+  ) {
+    const user = await this.findOne({
+      email,
+      _id: {$ne: excludeUserId},
+    });
+    return !!user;
+  };
 
-module.exports = User;
+const UserModel =
+  mongoose.models.User ||
+  mongoose.model("User", userSchema);
+
+module.exports = UserModel;

@@ -1,4 +1,5 @@
 const httpStatus = require("http-status");
+const {User} = require("../models");
 
 interface UserBody {
   email: string;
